@@ -20,7 +20,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    if: "contains(github.event.commits[0].message, '[daily-build]')"
+    if: "contains(github.event.commits[0].message, '[generate-build-$(date +'%d-%m-%Y')]')"
   
     runs-on: self-hosted
     
@@ -41,5 +41,15 @@ jobs:
         cd out
         java Hello
     
-    - name: get commid id for the Build
-      run: echo ::set-env name=GITHUB_SHA_SHORT::$(echo $GITHUB_SHA | cut -c 1-12)
+    - name: Get Latest Build number, Version, Git sha
+      env:
+        VERSION: "v20.04"
+        BUILD: "TB1"
+      run: |
+        echo ::set-env name=BUILD_INFO::${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ env.BUILD }}
+      
+    - name: Creating a distribution zip
+      run: |
+        cd src
+        mv out ${{ env.BUILD_INFO }}
+        zip -r ${{ env.BUILD_INFO }}.zip ${{ env.BUILD_INFO }}
