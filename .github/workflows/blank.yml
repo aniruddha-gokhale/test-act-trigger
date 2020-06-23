@@ -52,12 +52,3 @@ jobs:
     
     - name: get commid id for the Build
       run: echo ::set-env name=GITHUB_SHA_SHORT::$(echo $GITHUB_SHA | cut -c 1-12)
-    
-    - name: Upload Bianary Zip
-      uses: actions/upload-artifact@v1.0.0
-      env:
-          VERSION: "v20.04"
-          BUILD: "100"
-      with:
-        name: ${{ env.VERSION }}-${{ env.GITHUB_SHA_SHORT }}-${{ env.BUILD }}
-        path: src/uploaadArchiveTest
