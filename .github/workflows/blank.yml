@@ -35,9 +35,9 @@ jobs:
     - name : check-buildInfo file is changed
       run: |
         if git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -q 'buildInfo.json'; then
-          echo ::set-env name=BUILD::${echo true}
+          echo ::set-env name=BUILD::true
         else
-          echo ::set-env name=BUILD::${echo false}
+          echo ::set-env name=BUILD::false
         fi
     
     # Runs a set of commands using the runners shell
