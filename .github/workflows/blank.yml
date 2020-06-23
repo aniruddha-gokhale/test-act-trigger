@@ -54,6 +54,7 @@ jobs:
         java Hello
     
     - name: Get Latest Build number, Version, Git sha
+      if: ${{ success() }}
       env:
         VERSION: "v20.04"
         BUILD: "TB1"
@@ -61,6 +62,7 @@ jobs:
         echo ::set-env name=BUILD_INFO::${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ env.BUILD }}
       
     - name: Creating a distribution zip
+      if: ${{ success() }}
       run: |
         cd src
         mv out ${{ env.BUILD_INFO }}
