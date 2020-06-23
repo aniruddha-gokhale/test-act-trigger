@@ -39,11 +39,10 @@ jobs:
         else
           echo ::set-env name=BUILD::${$(echo false)}
         fi
-    - name : chek if build needed
-      if: ${{ env.BUILD }} == 'true'
-
+    
     # Runs a set of commands using the runners shell
     - name: Run a Build script
+      if: ${{ env.BUILD }} == 'true'
       run: |
         cd src
         mkdir out
