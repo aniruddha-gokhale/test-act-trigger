@@ -46,6 +46,7 @@ jobs:
     - name: Run a Build script
       if: ${{ env.BUILD }} == 'true'
       run: |
+        echo ${{ env.BUILD }}
         cd src
         mkdir out
         javac Hello.java -d out/
