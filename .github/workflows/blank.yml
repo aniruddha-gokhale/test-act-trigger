@@ -16,11 +16,33 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
+  
+  pre-build :
+    runs-on: self-hosted
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+        submodules: true
+      
+    - name : check-buildInfo file is changed
+      run: |
+        if git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -q 'buildInfo.json'; then
+          echo ::set-env name=BUILD::true
+          echo "matched"
+        else
+          echo ::set-env name=BUILD::false
+          echo "matched -not"
+        fi
+      
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     #if: "contains(github.event.commits[0].message, '[generate-daily-build]')"
+    if: "contains('true',env.BUILD)"
   
     runs-on: self-hosted
     
@@ -44,7 +66,6 @@ jobs:
     
     # Runs a set of commands using the runners shell
     - name: Run a Build script
-      if: "contains('true',env.BUILD)"
       run: |
         echo ${{ env.BUILD }}
         cd src
@@ -54,7 +75,6 @@ jobs:
         java Hello
     
     - name: Get Latest Build number, Version, Git sha
-      if: ${{ success() }}
       env:
         VERSION: "v20.04"
         BUILD: "TB1"
@@ -62,7 +82,6 @@ jobs:
         echo ::set-env name=BUILD_INFO::${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ env.BUILD }}
       
     - name: Creating a distribution zip
-      if: ${{ success() }}
       run: |
         cd src
         mv out ${{ env.BUILD_INFO }}
