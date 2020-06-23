@@ -44,7 +44,7 @@ jobs:
     
     # Runs a set of commands using the runners shell
     - name: Run a Build script
-      if: "contains(true',env.BUILD)"
+      if: "contains('true',env.BUILD)"
       run: |
         echo ${{ env.BUILD }}
         cd src
