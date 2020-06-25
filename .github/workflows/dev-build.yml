@@ -23,9 +23,13 @@ jobs:
       with:
         lfs: true
         submodules: true
-      
-    - name : git hub event
-      run: 'echo "Event text: ${{ github.event }}"'
+        
+    - name: Get Latest Build number, Version, Git sha
+      run: |
+        echo ::set-env name=BUILD_INFO::${{ github.event.client_payload.version }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.client_payload.buid }}
+           
+    - name : Generating Build ${{ env.BUILD }}
+      run: echo ${{ env.BUILD }}
     
     # Runs a set of commands using the runners shell
     - name: Run a Build script
@@ -36,13 +40,6 @@ jobs:
         javac Hello.java -d out/
         cd out
         java Hello
-    
-    - name: Get Latest Build number, Version, Git sha
-      env:
-        VERSION: "v20.04"
-        BUILD: "TB1"
-      run: |
-        echo ::set-env name=BUILD_INFO::${{ env.VERSION }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ env.BUILD }}
       
     - name: Creating a distribution zip
       run: |
