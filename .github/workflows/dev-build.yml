@@ -28,13 +28,12 @@ jobs:
       run: |
         echo ::set-env name=BUILD_INFO::${{ github.event.client_payload.version }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.client_payload.buid }}
            
-    - name : Generating Build ${{ env.BUILD }}
-      run: echo ${{ env.BUILD }}
+    - name : Generating Build ${{ env.BUILD_INFO }}
+      run: echo ${{ env.BUILD_INFO }}
     
     # Runs a set of commands using the runners shell
     - name: Run a Build script
       run: |
-        echo ${{ env.BUILD }}
         cd src
         mkdir out
         javac Hello.java -d out/
