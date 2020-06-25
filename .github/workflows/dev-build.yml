@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: curl-triggered-cicd
+name: dev-build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -24,15 +24,8 @@ jobs:
         lfs: true
         submodules: true
       
-    - name : check-buildInfo file is changed
-      run: |
-        if git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -q 'buildInfo.json'; then
-          echo ::set-env name=BUILD::true
-          echo "matched"
-        else
-          echo ::set-env name=BUILD::false
-          echo "matched -not"
-        fi
+    - name : git hub event
+      run: 'echo "Event text: ${{ github.event }}"'
     
     # Runs a set of commands using the runners shell
     - name: Run a Build script
