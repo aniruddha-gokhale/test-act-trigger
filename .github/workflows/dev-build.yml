@@ -32,7 +32,7 @@ jobs:
         
     - name: Get Latest Build number, Version, Git sha
       run: |
-        echo ::set-env name=BUILD_INFO::20.07-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.inputs.build_number }}
+        echo ::set-env name=BUILD_INFO::${{ github.event.inputs.version }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.inputs.build_number }}
         echo ::set-env name=SCR_DIR::"/home/aniruddha/Desktop/test_cicd/self-hosted-with-manual-trigger/cicd/actions-runner/_work/test-act-trigger/test-act-trigger/src"
            
     - name : Generating Build ${{ env.BUILD_INFO }}
