@@ -8,11 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       build_number:
-        description: 'CrusoeNext Build Number'
+        description: 'CrusoeNext Build Number(eg:101,102...)'
         required: true
-      version:
-         description:  'CrusoeNext Version Number'
-         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,7 +29,7 @@ jobs:
         
     - name: Get Latest Build number, Version, Git sha
       run: |
-        echo ::set-env name=BUILD_INFO::${{ github.event.inputs.version }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.inputs.build_number }}
+        echo ::set-env name=BUILD_INFO::20.07-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.inputs.build_number }}
         echo ::set-env name=SCR_DIR::"/home/aniruddha/Desktop/test_cicd/self-hosted-with-manual-trigger/cicd/actions-runner/_work/test-act-trigger/test-act-trigger/src"
            
     - name : Generating Build ${{ env.BUILD_INFO }}
