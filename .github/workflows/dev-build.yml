@@ -38,6 +38,11 @@ jobs:
     - name : Generating Build ${{ env.BUILD_INFO }}
       run: echo ${{ env.BUILD_INFO }}
     
+    - name: Update Config File
+      run: |
+        echo ${{ env.BUILD_INFO }}
+        contents="$(jq '.version = "${{ env.BUILD_INFO }}"' config/config.json)" &&  echo "${contents}" > config/config.json
+    
     # Runs a set of commands using the runners shell
     - name: Run a Build script
       run: |
