@@ -44,6 +44,7 @@ jobs:
           echo ::set-env name=BUILD_INFO::v${{ github.event.inputs.version }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.inputs.build_number }}
         fi
         echo ::set-env name=SCR_DIR::"/home/aniruddha/Desktop/test_cicd/self-hosted-with-manual-trigger/cicd/actions-runner/_work/test-act-trigger/test-act-trigger/src"
+    
     - name : Generating Build ${{ env.BUILD_INFO }}
       run: echo ${{ env.BUILD_INFO }}
     
