@@ -43,7 +43,7 @@ jobs:
           echo "Daily build. Generating version."
           echo ::set-env name=BUILD_INFO::v${{ github.event.inputs.version }}-$(echo $GITHUB_SHA | cut -c 1-12)-${{ github.event.inputs.build_number }}
           echo ::set-env name=SCR_DIR::"/home/aniruddha/Desktop/test_cicd/self-hosted-with-manual-trigger/cicd/actions-runner/_work/test-act-trigger/test-act-trigger/src"
-           
+        fi
     - name : Generating Build ${{ env.BUILD_INFO }}
       run: echo ${{ env.BUILD_INFO }}
     
@@ -56,6 +56,7 @@ jobs:
         else
           echo "Daily build. Update Config version."
           contents="$(jq '.version = "${{ env.BUILD_INFO }}"' config/config.json)" &&  echo "${contents}" > config/config.json
+        fi
     
     # Runs a set of commands using the runners shell
     - name: Run a Build script
