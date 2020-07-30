@@ -14,9 +14,8 @@ on:
         description: 'crusoe_build_number'
         required: true
       release_build:
-        description: 'set this option "true" for release build else keep empty'
+        description: 'set this option "YES" for release build else keep "NO'
         required: true
-        default: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,7 +35,7 @@ jobs:
         
     - name: Get Latest Build number, Version, Git sha
       run: |
-        if [ "${{ github.event.inputs.build_number }}" == "true" ]; then
+        if [ "${{ github.event.inputs.release_build }}" == "YES" ]; then
         echo "Release build. Getting version number from config file."
         echo ::::set-env name=BUILD_INFO::$(jq -r ".version" config/config.json)
         else
@@ -50,7 +49,7 @@ jobs:
     - name: Update Config File
       run: |
         echo ${{ env.BUILD_INFO }}
-        if [ "${{ github.event.inputs.build_number }}" == "true" ]; then
+        if [ "${{ github.event.inputs.release_build }}" == "YES" ]; then
         echo "Release build. No need to Update Config file"
         else
         echo "Daily build. Update Config version."
